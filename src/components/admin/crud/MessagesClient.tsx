@@ -12,7 +12,9 @@ export function MessagesClient({ initialData }: { initialData: ContactMessageRow
 
   const markRead = async (id: string, is_read: boolean) => {
     const supabase = createClient();
-    await supabase.from("contact_messages").update({ is_read }).eq("id", id);
+    await (supabase.from("contact_messages") as ReturnType<typeof supabase.from>)
+      .update({ is_read } as never)
+      .eq("id", id);
     setData((prev) => prev.map((m) => (m.id === id ? { ...m, is_read } : m)));
   };
 

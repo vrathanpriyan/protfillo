@@ -122,7 +122,7 @@ export interface Database {
       contact_messages: {
         Row: ContactMessageRow;
         Insert: ContactMessageInsert;
-        Update: Partial<ContactMessageRow>;
+        Update: { is_read?: boolean; subject?: string | null };
       };
     };
   };
