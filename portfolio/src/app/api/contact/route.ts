@@ -1,10 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
-import type { ContactMessage, Database } from "@/lib/supabase/types";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json() as ContactMessage;
+    const body = await request.json() as { name: string; email: string; subject?: string; message: string };
     const { name, email, subject, message } = body;
 
     if (!name || !email || !message) {
@@ -12,14 +11,12 @@ export async function POST(request: Request) {
     }
 
     const supabase = await createClient();
-    const { error } = await supabase
-      .from("contact_messages")
-      .insert({ 
-        name, 
-        email, 
-        subject: subject || null, 
-        message 
-      } as Database["public"]["Tables"]["contact_messages"]["Insert"]);
+    const { error } = await supabase.from("contact_messages").insert({
+      name,
+      email,
+      subject: subject || null,
+      message,
+    });
 
     if (error) throw error;
 
