@@ -46,7 +46,7 @@ export default async function AdminDashboard() {
                 <p className="text-2xl font-bold text-white">{stat.value}</p>
                 <p className="text-sm text-gray-400">{stat.label}</p>
               </div>
-              {"badge" in stat && stat.badge > 0 && (
+              {"badge" in stat && (stat.badge ?? 0) > 0 && (
                 <span className="rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold text-white">
                   {stat.badge} new
                 </span>
