@@ -11,12 +11,10 @@ export async function POST(request: Request) {
     }
 
     const supabase = await createClient();
-    const { error } = await supabase.from("contact_messages").insert({
-      name,
-      email,
-      subject: subject || null,
-      message,
-    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase as any)
+      .from("contact_messages")
+      .insert({ name, email, subject: subject || null, message });
 
     if (error) throw error;
 
