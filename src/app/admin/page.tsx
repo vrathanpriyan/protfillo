@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { FolderKanban, Wrench, Briefcase, Award, MessageSquare } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const supabase = await createClient();
 

@@ -7,7 +7,7 @@ import { ExperienceSection } from "@/components/sections/ExperienceSection";
 import { CertificatesSection } from "@/components/sections/CertificatesSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const supabase = await createClient();
