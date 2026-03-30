@@ -1,22 +1,35 @@
-import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json() as { name: string; email: string; subject?: string; message: string };
+    const body = await request.json() as {
+      name: string;
+      email: string;
+      subject?: string;
+      message: string;
+    };
     const { name, email, subject, message } = body;
 
     if (!name || !email || !message) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const supabase = await createClient();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (supabase as any)
-      .from("contact_messages")
-      .insert({ name, email, subject: subject || null, message });
+    const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/contact_messages`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+        "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!}`,
+        "Prefer": "return=minimal",
+      },
+      body: JSON.stringify({ name, email, subject: subject || null, message }),
+    });
 
-    if (error) throw error;
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(err);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

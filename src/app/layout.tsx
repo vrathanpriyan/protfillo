@@ -31,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.variable} font-sans`}>
+      <body className="font-sans">
         <div className="relative min-h-screen">
           {/* Background grid */}
           <div
